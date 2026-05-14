@@ -14,7 +14,5 @@ Livro = {
 
 print("\n===== Livro =====")
 
-print(f"Título:{livro_titulo}")
-print(f"Autor:{livro_autor}")  
-print(f"Ano de publicação:{livro_ano}")  
-print(f"Gênero:{livro_genero}")  
+for chave, valor in Livro.items():
+    print(f"{chave}: {valor}")
