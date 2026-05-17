@@ -53,3 +53,23 @@ for livro in livros:
     
     for chave, valor in livro.items():
         print(f"{chave}: {valor}")
+
+
+# Tupla de status
+
+status = ('A ler', 'Lendo', 'Concluído')
+
+###########################################################################################
+# Lista principal de livros
+
+livros = []
+
+###########################################################################################
+# Fila FIFO
+
+fila_leitura = []
+
+###########################################################################################
+# Pilha LIFO
+
+pilha_livro_concluidos = []
