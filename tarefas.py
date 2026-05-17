@@ -90,6 +90,8 @@ def atualizar_status():
 
                 livro['status'] = status[1]
 
+                fila_leitura.remove(livro)
+
                 print('Livro atualizado para "Lendo".')
                 return
             
@@ -180,3 +182,37 @@ def contar_status():
     print(f'A ler: {a_ler}')
     print(f'Lendo: {lendo}')
     print(f'Concluído: {concluido}')
+
+##########################################################################################
+
+# Removendo livros da fila
+
+def remover_da_fila():
+
+    if len(fila_leitura) == 0:
+
+        print('Fila vazia.')
+        return
+    
+    livro_remover = fila_leitura.pop(0)
+
+    print('Livro removido da fila.')
+    print(livro_remover['titulo'])
+
+##########################################################################################
+
+# Removendo livros da pilha
+
+def remover_da_pilha():
+
+    if len(pilha_livro_concluidos) == 0:
+
+        print('Histórico vazio.')
+        return
+    
+    livro_remover = pilha_livro_concluidos.pop()
+
+    print('Livro removido do histórico de concluídos.')
+    print(livro_remover['titulo'])
+
+##########################################################################################
