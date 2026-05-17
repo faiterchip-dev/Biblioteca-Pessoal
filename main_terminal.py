@@ -15,7 +15,9 @@ while True:
     print('6 - Mostrar Pilha')
     print('7 - Filtrar Gênero')
     print('8 - Contar Status')
-    print('9 - Sair')
+    print("9 - Remover da fila")
+    print("10 - Remover do histórico de Concluídos")
+    print("11 - Sair")
 
     opcao = input('Escolha uma opção da Biblioteca: ')
 
@@ -44,11 +46,16 @@ while True:
         contar_status()
      
     elif opcao == '9':
-        print('O sistema será encerrado.')
-        break
+        remover_da_fila()
+
+    elif opcao == '10':
+        remover_da_pilha()
+
+    elif opcao == '11':
+        print('Obrigado por acessar a biblioteca! O sistema será encerrado.')
 
     else:
 
-        print('Opção Inválida. Por favor digite os números de 1 à 9.')
+        print('Opção Inválida. Por favor digite os números de 1 à 11.')
     
     input('\n Pressione ENTER para continuar.')
