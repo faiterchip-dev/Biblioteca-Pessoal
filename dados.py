@@ -1,75 +1,17 @@
-# criar lista
-livros = []
+lista_de_livros_cadastrados = []  #Lista global para armazenar os livros cadastrados
+status_opcoes = ['Para ler', 'Lendo', 'Concluído'] #Opções de status para os livros, usadas para validação e contagem
 
-# Pedir dados
-def continuar():
-    livro_titulo = input('Digite o nome do seu novo livro: ')
-    livro_autor = input('Digite o nome do autor do seu novo livro: ')
-    
-    try:
-        livro_ano = int(input('Digite o ano que foi lançado o livro: '))
-    except ValueError:
-        print('Por favor digite o ano de lançamento apenas em números.')
-        return
-
-    livro_genero = input('Digite o gênero do livro: ')
-
-    livro = {
-        "Título": livro_titulo,
-        "Autor": livro_autor,
-        "Ano de publicação": livro_ano,
-        "Gênero": livro_genero
-    }
-
-    # Salva o livro na lista
-    livros.append(livro)
-
-    print("\n===== Livro Adicionado =====")
-    print(f"Título: {livro_titulo}")
-    print(f"Autor: {livro_autor}")
-    print(f"Ano de publicação: {livro_ano}")
-    print(f"Gênero: {livro_genero}")
-
-    # Adicionar mais livros
-while True:
-    adicionar = input('\nVocê quer adicionar mais algum livro? (S/N) ').upper()
-
-    if adicionar == 'N':
-        print('\nAproveite seus novos livros')
-        break
-
-    elif adicionar == 'S':
-        continuar()
-
-    else:
-        print('Por favor digite apenas S ou N')
+try:
+    def obter_livros_por_status(status):  #Função para obter livros filtrados por status
+        return [livro for livro in lista_de_livros_cadastrados if livro['Status'] == status]
 
 
-# Mostrar todos os livros salvos
-print("\n===== TODOS OS LIVROS =====")
-
-for livro in livros:
-    print("\n----------------")
-    
-    for chave, valor in livro.items():
-        print(f"{chave}: {valor}")
+    def obter_fila():
+        return obter_livros_por_status('Para ler')
 
 
-# Tupla de status
+    def obter_pilha():
+        return obter_livros_por_status('Concluído')
+except Exception as error:
+    print(f'Ocorreu um erro ao acessar os dados: {error}')
 
-status = ('A ler', 'Lendo', 'Concluído')
-
-###########################################################################################
-# Lista principal de livros
-
-livros = []
-
-###########################################################################################
-# Fila FIFO
-
-fila_leitura = []
-
-###########################################################################################
-# Pilha LIFO
-
-pilha_livro_concluidos = []

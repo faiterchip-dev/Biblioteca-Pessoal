@@ -1,4 +1,3 @@
-import os
-
 def limpar_tela():
-    os.system("cls || clear")
+    import os
+    os.system('cls' if os.name == 'nt' else 'clear')

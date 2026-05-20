@@ -1,218 +1,213 @@
-from dados import livros, status, fila_leitura, pilha_livro_concluidos
+from dados import lista_de_livros_cadastrados, status_opcoes, obter_fila, obter_pilha
 
-##########################################################################################
+try:
+    def CadastroDeLivro():
+        livro = solicitar_dados_livro()
+        lista_de_livros_cadastrados.append(livro)
+        print('\nLivro cadastrado com sucesso!')
+        mostrar_livro(livro)
 
-# Cadastrar livro
+        resposta = input('Deseja cadastrar outro livro? (S/N): ')
+        if resposta == 'S':
+            CadastroDeLivro()
 
-def cadastrar_livro():
-    
-    titulo = input('Título: ')
-    autor = input('Autor: ')
-    ano = input('Ano: ')
-    genero = input('Gênero: ')
-    prioridade = input('Prioridade: ')
 
-    livro = {
-        'titulo': titulo,
-        'autor': autor,
-        'ano': ano,
-        'genero': genero,
-        'prioridade': prioridade,
-        'status': status[0]
-    }
+    def solicitar_dados_livro():
+        titulo = input('Digite o nome do seu novo livro: ')
+        autor = input('Digite o nome do autor do seu novo livro: ')
 
-    livros.append(livro)
+        while True:
+            ano_texto = input('Digite o ano que foi lançado o livro: ')
+            if ano_texto.isdigit():
+                ano = int(ano_texto)
+                break
+            print('Por favor digite o ano de lançamento apenas em números.')
 
-    fila_leitura.append(livro)
+        genero = input('Digite o gênero do livro: ')
+        status = escolher_status()
 
-    print(f'Livro cadastrado com sucesso!')
-    
-def listar_livros():
+        return {
+            'Título': titulo,
+            'Autor': autor,
+            'Ano de publicação': ano,
+            'Gênero': genero,
+            'Status': status
+        }
 
-    if len(livros) == 0:
-        print('Nenhum livro cadastrado.')
-        return
-    
-    print('\n======= LISTA DE LIVROS =======')
 
-    for livro in livros:
-        print(f'Título: {livro['titulo']}')
-        print(f'Autor: {livro['autor']}')
-        print(f'Ano: {livro['ano']}')
-        print(f'Gênero: {livro['genero']}')
-        print(f'Prioridade: {livro['prioridade']}')
-        print(f'Status: {livro['status']}')
-        print('----------------------------------------')
+    def escolher_status():
+        print('\nSelecione o status do livro:')
+        for indice, status in enumerate(status_opcoes, start=1):
+            print(f'  {indice} - {status}')
 
-##########################################################################################
+        escolha = input('Escolha uma opção de status (padrão 1): ')
+        if escolha == '':
+            return status_opcoes[0]
 
-# Buscar Livros
+        if escolha.isdigit():
+            indice = int(escolha)
+            if 1 <= indice <= len(status_opcoes):
+                return status_opcoes[indice - 1]
 
-def buscar_livro():
+        print('Status inválido. Usando "Para ler" como padrão.')
+        return status_opcoes[0]
 
-    pesquisa = input('Digite título ou autor do livro: ').lower()
 
-    encontrados = []
+    def ListarLivros():
+        if len(lista_de_livros_cadastrados) == 0:
+            print('\nNenhum livro cadastrado ainda.')
+            return
 
-    for livro in livros: #
+        print('\nLivros cadastrados:')
+        for indice, livro in enumerate(lista_de_livros_cadastrados, start=1):
+            print(f'\n{indice} - {livro.get("Título")} ({livro.get("Status")})')
+            mostrar_livro(livro)
 
-        if (
-            pesquisa in livro['titulo'].lower()
-            or
-            pesquisa in livro['autor'].lower()
-        ):
-            
-            encontrados.append(livro)
 
-    if len(encontrados) == 0:
-        print('Livro não encontrado.')
+    def BuscarLivro():
+        termo = input('Digite o título ou autor que quer buscar: ').lower()
+        if termo == '':
+            print('Busca vazia. Digite um título ou autor.')
+            return
 
-    else:
-
-        print('\n======= RESULTADOS ENCONTRADOS =======')
-
-    for livro in encontrados:
-        print(f'{livro['titulo']} - {livro['autor']}')
-
-##########################################################################################
-
-# Atualizar Status
-
-def atualizar_status():
-
-    titulo = input('Digite o título do livro: ').lower()
-
-    for livro in livros:
-        
-        if livro['titulo'].lower() == titulo:
-
-            if livro['status'] == status[0]:
-
-                livro['status'] = status[1]
-
-                fila_leitura.remove(livro)
-
-                print('Livro atualizado para "Lendo".')
-                return
-            
-            elif livro['status'] == status[1]:
-
-                livro['status'] = status[2]
-
-                pilha_livro_concluidos.append(livro)
-
-                print('Livro atualizado para "Concluído".')
-                return
-            
-            elif livro['status'] == status[2]:
-
-                print('O livro já foi concluído.')
-                return
-            
-    print('Livro não encontrado.')
-
-##########################################################################################
-
-# Mostar FIFO
-
-def mostrar_fila():
-
-    print('\n======= FILA DE LEITURA =======')
-
-    for livro in fila_leitura:
-
-        print(livro['titulo'])
-
-##########################################################################################
-
-# Mostrar LIFO
-
-def mostrar_pilha():
-
-    print('\n======= PILHA DE LIVROS CONCLUÍDOS =======')
-
-    for livro in reversed(pilha_livro_concluidos):
-
-        print(livro['titulo'])
-
-##########################################################################################
-
-# Filtrar livros por gênero (Função bônus)
-
-def filtrar_genero():
-
-    genero = input('Digite o gênero do livro: ')
-
-    encontrados = []
-
-    for livro in livros:
-
-        if livro['genero'].lower() == genero:
-            encontrados.append(livro)
+        encontrados = [livro for livro in lista_de_livros_cadastrados
+                        if termo in livro.get('Título', '').lower()
+                        or termo in livro.get('Autor', '').lower()]
 
         if len(encontrados) == 0:
-            print('Nenhum livro encontrado.')
+            print('Nenhum livro encontrado para essa busca.')
+            return
 
+        print(f'\nForam encontrados {len(encontrados)} livro(s):')
+        for livro in encontrados:
+            mostrar_livro(livro)
+
+
+    def AtualizarStatus():
+        if len(lista_de_livros_cadastrados) == 0:
+            print('Ainda não há livros para atualizar.')
+            return
+
+        ListarLivros()
+        escolha = input('Digite o número do livro que deseja atualizar: ')
+        if escolha.isdigit() == False:
+            print('Entrada inválida. Use apenas números.')
+            return
+
+        indice = int(escolha) - 1
+        if indice < 0 or indice >= len(lista_de_livros_cadastrados):
+            print('Número de livro inválido.')
+            return
+
+        livro = lista_de_livros_cadastrados[indice]
+        print(f'Livro selecionado: {livro.get("Título")} - Status atual: {livro.get("Status")}')
+        novo_status = escolher_status()
+        livro['Status'] = novo_status
+        print('Status atualizado com sucesso!')
+        mostrar_livro(livro)
+
+
+    def MostrarFila():
+        fila = obter_fila()
+        if len(fila) == 0:
+            print('A fila de leitura está vazia.')
+            return
+
+        print('\nFila de leitura:')
+        for indice, livro in enumerate(fila, start=1):
+            print(f'\n{indice} - {livro.get("Título")}')
+            mostrar_livro(livro)
+
+
+    def MostrarPilha():
+        pilha = obter_pilha()
+        if len(pilha) == 0:
+            print('Não há livros concluídos no histórico.')
+            return
+
+        print('\nPilha de livros concluídos (último a entrar é o primeiro a sair):')
+        for indice, livro in enumerate(reversed(pilha), start=1):
+            print(f'\n{indice} - {livro.get("Título")}')
+            mostrar_livro(livro)
+
+
+    def FiltrarGenero():
+        genero = input('Digite o gênero que deseja filtrar: ').lower()
+        if genero == '':
+            print('Gênero inválido. Digite um gênero válido.')
+            return
+
+        encontrados = [livro for livro in lista_de_livros_cadastrados
+                        if genero in livro.get('Gênero', '').lower()]
+
+        if len(encontrados) == 0:
+            print('Nenhum livro encontrado para esse gênero.')
+            return
+
+        print(f'\nForam encontrados {len(encontrados)} livro(s) no gênero "{genero}":')
+        for livro in encontrados:
+            mostrar_livro(livro)
+
+
+    def ContarStatus():
+        if len(lista_de_livros_cadastrados) == 0:
+            print('Nenhum livro cadastrado ainda.')
+            return
+
+        contagem = {status: 0 for status in status_opcoes}
+        for livro in lista_de_livros_cadastrados:
+            contagem[livro.get('Status', 'Para ler')] = contagem.get(livro.get('Status', 'Para ler'), 0) + 1
+
+        print('\nContagem por status:')
+        for status, quantidade in contagem.items():
+            print(f'  {status}: {quantidade}')
+
+
+    def RemoverDaFila():
+        fila = obter_fila()
+        if len(fila) == 0:
+            print('A fila de leitura está vazia.')
+            return
+
+        livro = fila[0]
+        print('O primeiro livro da fila é:')
+        mostrar_livro(livro)
+
+        resposta = input('Deseja remover este livro da fila e marcar como Lendo? (S/N): ')
+        if resposta == 'S':
+            livro['Status'] = 'Lendo'
+            print('Livro removido da fila e marcado como Lendo.')
         else:
+            print('Ação cancelada.')
 
-            for livro in encontrados:
-                print(livro['titulo'])
 
-##########################################################################################
+    def RemoverDoHistorico():
+        pilha = obter_pilha()
+        if len(pilha) == 0:
+            print('Não há livros concluídos no histórico.')
+            return
 
-# Contar total de livros por status (Função bônus)
+        livro = pilha[-1]
+        print('O último livro concluído é:')
+        mostrar_livro(livro)
 
-def contar_status():
+        resposta = input('Deseja remover este livro do histórico de concluídos e colocá-lo de volta na fila? (S/N): ')
+        if resposta == 'S':
+            livro['Status'] = 'Para ler'
+            print('Livro removido do histórico de concluídos e colocado na fila de leitura.')
+        else:
+            print('Ação cancelada.')
 
-    a_ler = 0
-    lendo = 0
-    concluido = 0
 
-    for livro in livros:
+    def mostrar_livro(livro):
+        for chave, valor in livro.items():
+            print(f'  {chave}: {valor}')
 
-        if livro['status'] == status[0]:
-            a_ler += 1
 
-        elif livro['status'] == status[1]:
-            lendo += 1
+    def perguntar_sim_ou_nao(pergunta):
+        resposta = input(pergunta)
+        return resposta == 'S'
 
-        elif livro['status'] == status[2]:
-            concluido += 1
-
-    print(f'A ler: {a_ler}')
-    print(f'Lendo: {lendo}')
-    print(f'Concluído: {concluido}')
-
-##########################################################################################
-
-# Removendo livros da fila
-
-def remover_da_fila():
-
-    if len(fila_leitura) == 0:
-
-        print('Fila vazia.')
-        return
-    
-    livro_remover = fila_leitura.pop(0)
-
-    print('Livro removido da fila.')
-    print(livro_remover['titulo'])
-
-##########################################################################################
-
-# Removendo livros da pilha
-
-def remover_da_pilha():
-
-    if len(pilha_livro_concluidos) == 0:
-
-        print('Histórico vazio.')
-        return
-    
-    livro_remover = pilha_livro_concluidos.pop()
-
-    print('Livro removido do histórico de concluídos.')
-    print(livro_remover['titulo'])
-
-##########################################################################################
+except Exception as error:
+    print(f'Ocorreu um erro ao carregar as funções: {error}')
+    print('Por favor, reinicie o sistema e tente novamente.')  

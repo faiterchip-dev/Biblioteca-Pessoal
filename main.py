@@ -1,94 +1,64 @@
-from tkinter import *
+from tarefas import *   #importa todas as funções do arquivo tarefas.py
+from utils import limpar_tela  #importa a função limpar_tela do arquivo utils.py
 
+while True:
+    limpar_tela()
 
+    print('======= Biblioteca Pessoal =======')
+    print('    1 - Cadastrar Livro')
+    print('    2 - Listar Livros')
+    print('    3 - Buscar Livro')
+    print('    4 - Atualizar Status')
+    print('    5 - Mostrar Fila')
+    print('    6 - Mostrar Pilha')
+    print('    7 - Filtrar Gênero')
+    print('    8 - Contar Status')
+    print('    9 - Remover da fila')
+    print('   10 - Remover do histórico de Concluídos')
+    print('   11 - Sair')
 
+    opcao = input('Escolha uma opção da Biblioteca: ')
+    try:
+            if opcao == '1':
+                CadastroDeLivro()
 
-janela = Tk()
-janela.title("biblioteca pessoal")
-janela.geometry("1100x432")
-janela.config(bg="#4690AF")
-janela.resizable(width=False,height=False)
+            elif opcao == '2':
+                ListarLivros()
 
-def teste():
-    global contador_teste
-    texto1 = "solo library"
-    texto2 = "call of duty"
-    
-    if (contador_teste %2) == 0:
-        print(texto1)
-    else:
-        print(texto2)
-        
-    contador_teste = contador_teste + 1
-contador_teste=0
+            elif opcao == '3':
+                BuscarLivro()
 
-# label = Label(janela,width=30,height=3,text="biblioteca pessoal",font=("Aria 10 bold"),fg="white",bg="#9C9DB1")
-# label.place(x=0,y=0)
-label_coluna_botao = Label(janela,width=30,height=3,text="biblioteca pessoal",font=("Aria 10 bold"),fg="white",bg="#696969")
-label_coluna_botao.grid(row=0, column=0)
+            elif opcao == '4':
+                AtualizarStatus()
 
-label_coluna_botao = Label(janela,width=30,height=3,text="",font=("Aria 10 bold"),fg="white",bg="#D9D9D9")
-label_coluna_botao.grid(row=1, column=0)
+            elif opcao == '5':
+                MostrarFila()
 
-label_coluna_botao = Label(janela,width=30,height=3,text="",font=("Aria 10 bold"),fg="white",bg="#9C9DB1")
-label_coluna_botao.grid(row=2, column=0)
+            elif opcao == '6':
+                MostrarPilha()
 
-label_coluna_botao = Label(janela,width=30,height=3,text="",font=("Aria 10 bold"),fg="white",bg="#9C9DB1")
-label_coluna_botao.grid(row=3, column=0)
+            elif opcao == '7':
+                FiltrarGenero()
 
-label_coluna_botao = Label(janela,width=30,height=3,text="",font=("Aria 10 bold"),fg="white",bg="#9C9DB1")
-label_coluna_botao.grid(row=4, column=0)
+            elif opcao == '8':
+                ContarStatus()
 
-label_coluna_botao = Label(janela,width=30,height=3,text="",font=("Aria 10 bold"),fg="white",bg="#9C9DB1")
-label_coluna_botao.grid(row=5, column=0)
+            elif opcao == '9':
+                RemoverDaFila()
 
-label_coluna_botao = Label(janela,width=30,height=3,text="",font=("Aria 10 bold"),fg="white",bg="#9C9DB1")
-label_coluna_botao.grid(row=6, column=0)
+            elif opcao == '10':
+                RemoverDoHistorico()
 
-label_coluna_botao = Label(janela,width=30,height=3,text="",font=("Aria 10 bold"),fg="white",bg="#9C9DB1")
-label_coluna_botao.grid(row=7, column=0)
-#-----------------------------------------------------------------------------------------------------------
-label_coluna_botao = Label(janela,width=26,height=2,text="",font=("Aria 10 bold"),fg="white",bg="white")
-label_coluna_botao.grid(row=1, column=0)
+            elif opcao == '11':
+                print('Obrigado por acessar a biblioteca! O sistema será encerrado.')
+                break
 
-label_coluna_botao = Label(janela,width=29,height=2,text="",font=("Aria 10 bold"),fg="white",bg="#9DC8F9")
-label_coluna_botao.grid(row=2, column=0)
+            else:
+                print('Opção Inválida. Por favor digite números de 1 a 11.')
 
-label_coluna_botao = Label(janela,width=29,height=2,text="",font=("Aria 10 bold"),fg="white",bg="#9DC8F9")
-label_coluna_botao.grid(row=3, column=0)
-
-label_coluna_botao = Label(janela,width=29,height=2,text="",font=("Aria 10 bold"),fg="white",bg="#9DC8F9")
-label_coluna_botao.grid(row=4, column=0)
-
-label_coluna_botao = Label(janela,width=29,height=2,text="",font=("Aria 10 bold"),fg="white",bg="#9DC8F9")
-label_coluna_botao.grid(row=5, column=0)
-
-label_coluna_botao = Label(janela,width=29,height=2,text="",font=("Aria 10 bold"),fg="white",bg="#9DC8F9")
-label_coluna_botao.grid(row=6, column=0)
-
-label_coluna_botao = Label(janela,width=29,height=2,text="",font=("Aria 10 bold"),fg="white",bg="#9DC8F9")
-label_coluna_botao.grid(row=7, column=0)
-
-#------------------------------------------------------------------------------------------------------------
-botao = Button(janela,command=teste,width=27,height=1,text=" ♱ pesquisar",bg="#D9D9D9")
-botao.grid(row=1,column=0)
-
-botao = Button(janela,width=27,text="recentes",bg="#85B1E3",font=("Aria 10 bold"),fg="white")
-botao.grid(row=2,column=0)
-
-botao = Button(janela,width=27,text="meus livros",bg="#85B1E3",font=("Aria 10 bold"),fg="white")
-botao.grid(row=3,column=0)
-
-botao = Button(janela,width=27,text="explorar on-line",bg="#85B1E3",font=("Aria 10 bold"),fg="white")
-botao.grid(row=4,column=0)
-
-botao = Button(janela,width=27,text="listar arquivos",bg="#85B1E3",font=("Aria 10 bold"),fg="white")
-botao.grid(row=5,column=0)
-
-botao = Button(janela,width=27,text="marcadores",bg="#85B1E3",font=("Aria 10 bold"),fg="white")
-botao.grid(row=6,column=0)
-
-botao = Button(janela,width=27,text="configurações",bg="#85B1E3",font=("Aria 10 bold"),fg="white")
-botao.grid(row=7,column=0)
-
-janela.mainloop()
+            input('\nPressione ENTER para continuar.')
+    except Exception as erro: #captura qualquer erro que possa ocorrer durante a execução do programa guarda na variavel erro e exibe uma mensagem de erro para o usuário
+        print(f'Ocorreu um erro: {erro}')
+        print("provalvelmente foi erro de sistema reinicie o sistema e tente novamente.")
+        input('\nPressione ENTER para continuar.')
+        break
