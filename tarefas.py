@@ -1,9 +1,9 @@
-from dados import lista_de_livros_cadastrados, status_opcoes, obter_fila, obter_pilha
+from dados import lista_de_livros_cadastrados, status_opcoes, obter_fila, obter_pilha # Importa alguns arquivos da pasta dados
 
 try:
     def CadastroDeLivro():
-        livro = solicitar_dados_livro()
-        lista_de_livros_cadastrados.append(livro)
+        livro = solicitar_dados_livro() 
+        lista_de_livros_cadastrados.append(livro) # Põe o livro na lista de livros cadastrados
         print('\nLivro cadastrado com sucesso!')
         mostrar_livro(livro)
 
@@ -18,7 +18,7 @@ try:
 
         while True:
             ano_texto = input('Digite o ano que foi lançado o livro: ')
-            if ano_texto.isdigit():
+            if ano_texto.isdigit(): # se caso for numero
                 ano = int(ano_texto)
                 break
             print('Por favor digite o ano de lançamento apenas em números.')
@@ -26,7 +26,7 @@ try:
         genero = input('Digite o gênero do livro: ')
         status = escolher_status()
 
-        return {
+        return { # Retorna à seleção de opções
             'Título': titulo,
             'Autor': autor,
             'Ano de publicação': ano,
@@ -37,17 +37,17 @@ try:
 
     def escolher_status():
         print('\nSelecione o status do livro:')
-        for indice, status in enumerate(status_opcoes, start=1):
-            print(f'  {indice} - {status}')
+        for indice, status in enumerate(status_opcoes, start=1): 
+            print(f'  {indice} - {status}') # printa "Para ler", "Lendo" e "Concluído"
 
         escolha = input('Escolha uma opção de status (padrão 1): ')
         if escolha == '':
-            return status_opcoes[0]
+            return status_opcoes[0] # Retorna para status de opções inicial
 
         if escolha.isdigit():
             indice = int(escolha)
-            if 1 <= indice <= len(status_opcoes):
-                return status_opcoes[indice - 1]
+            if 1 <= indice <= len(status_opcoes): # se 1 for menor ou igual à indice
+                return status_opcoes[indice - 1] # Retorna em opção "Para ler"
 
         print('Status inválido. Usando "Para ler" como padrão.')
         return status_opcoes[0]
@@ -59,8 +59,8 @@ try:
             return
 
         print('\nLivros cadastrados:')
-        for indice, livro in enumerate(lista_de_livros_cadastrados, start=1):
-            print(f'\n{indice} - {livro.get("Título")} ({livro.get("Status")})')
+        for indice, livro in enumerate(lista_de_livros_cadastrados, start=1): # se houver algum livro cadastrado
+            print(f'\n{indice} - {livro.get("Título")} ({livro.get("Status")})') # printa Índice, Título e Status
             mostrar_livro(livro)
 
 
@@ -68,7 +68,7 @@ try:
         termo = input('Digite o título ou autor que quer buscar: ').lower()
         if termo == '':
             print('Busca vazia. Digite um título ou autor.')
-            return
+            return 
 
         encontrados = [livro for livro in lista_de_livros_cadastrados
                         if termo in livro.get('Título', '').lower()
