@@ -6,12 +6,12 @@ try:
         return [livro for livro in lista_de_livros_cadastrados if livro['Status'] == status]
 
 
-    def obter_fila():
-        return obter_livros_por_status('Para ler')
+    def obter_fila():  
+        return obter_livros_por_status('Para ler') # Retorna status em "Para ler"
 
 
     def obter_pilha():
-        return obter_livros_por_status('Concluído')
-except Exception as error:
-    print(f'Ocorreu um erro ao acessar os dados: {error}')
+        return obter_livros_por_status('Concluído') # Retorna status em "Concluído"
+except Exception as error: # Previne e captura o erro em uma variável
+    print(f'Ocorreu um erro ao acessar os dados: {error}') # Mostra o erro com a variável
 
