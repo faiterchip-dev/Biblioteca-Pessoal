@@ -196,6 +196,14 @@ Após iniciar o programa, o menu será exibido:
 
 ---
 
+# Observações
+
+- O projeto utiliza apenas Python padrão
+- Não existem dependências externas
+- Os livros são armazenados apenas em memória
+- Ao fechar o programa os dados são perdidos
+- O sistema foi desenvolvido para fins acadêmicos
+  
 ---
 
 # Licença
