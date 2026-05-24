@@ -1,7 +1,7 @@
 from dados import lista_de_livros_cadastrados, status_opcoes, obter_fila, obter_pilha # Importa alguns arquivos da pasta dados
 
 try:
-    def CadastroDeLivro():
+    def CadastroDeLivro(): # Função para cadastrar um novo livro na biblioteca, permitindo ao usuário inserir informações como título, autor, gênero, etc.
         livro = solicitar_dados_livro() 
         lista_de_livros_cadastrados.append(livro) # Põe o livro na lista de livros cadastrados
         print('\nLivro cadastrado com sucesso!')
@@ -12,7 +12,7 @@ try:
             CadastroDeLivro()
 
 
-    def solicitar_dados_livro():
+    def solicitar_dados_livro(): # Função para solicitar os dados do livro ao usuário, como título, autor, ano de publicação, gênero e status.
         titulo = input('Digite o nome do seu novo livro: ')
         autor = input('Digite o nome do autor do seu novo livro: ')
 
@@ -35,7 +35,7 @@ try:
         }
 
 
-    def escolher_status():
+    def escolher_status(): # Função para escolher o status do livro, apresentando as opções "Para ler", "Lendo" e "Concluído" para o usuário selecionar. O status escolhido é retornado para ser associado ao livro cadastrado.
         print('\nSelecione o status do livro:')
         for indice, status in enumerate(status_opcoes, start=1): 
             print(f'  {indice} - {status}') # printa "Para ler", "Lendo" e "Concluído"
@@ -44,7 +44,7 @@ try:
         if escolha == '':
             return status_opcoes[0] # Retorna para status de opções inicial
 
-        if escolha.isdigit():
+        if escolha.isdigit(): # se caso for numero
             indice = int(escolha)
             if 1 <= indice <= len(status_opcoes): # se 1 for menor ou igual à indice
                 return status_opcoes[indice - 1] # Retorna em opção "Para ler"
@@ -53,7 +53,7 @@ try:
         return status_opcoes[0]
 
 
-    def ListarLivros():
+    def ListarLivros(): # Função para listar todos os livros cadastrados na biblioteca, mostrando detalhes como título, autor, status, etc. Se não houver livros cadastrados, exibe uma mensagem informando que a biblioteca está vazia.
         if len(lista_de_livros_cadastrados) == 0:
             print('\nNenhum livro cadastrado ainda.')
             return
@@ -70,7 +70,7 @@ try:
             print('Busca vazia. Digite um título ou autor.')
             return 
 
-        encontrados = [livro for livro in lista_de_livros_cadastrados
+        encontrados = [livro for livro in lista_de_livros_cadastrados # se o termo for encontrado no título ou autor do livro, ele é adicionado à lista de encontrados
                         if termo in livro.get('Título', '').lower()
                         or termo in livro.get('Autor', '').lower()]
 
@@ -83,12 +83,12 @@ try:
             mostrar_livro(livro)
 
 
-    def AtualizarStatus():
+    def AtualizarStatus(): # Função para atualizar o status de um livro na biblioteca. O usuário pode escolher um livro específico e alterar seu status para "Para ler", "Lendo" ou "Concluído". Se não houver livros cadastrados, exibe uma mensagem informando que não há livros para atualizar.
         if len(lista_de_livros_cadastrados) == 0:
             print('Ainda não há livros para atualizar.')
             return
 
-        ListarLivros()
+        ListarLivros() # Chama a função ListarLivros() para exibir a lista de livros cadastrados, permitindo ao usuário visualizar os livros disponíveis antes de escolher qual status deseja atualizar.
         escolha = input('Digite o número do livro que deseja atualizar: ')
         if escolha.isdigit() == False:
             print('Entrada inválida. Use apenas números.')
@@ -107,7 +107,7 @@ try:
         mostrar_livro(livro)
 
 
-    def MostrarFila():
+    def MostrarFila(): # Função para mostrar os livros que estão na fila de espera, ou seja, os livros que o usuário deseja ler em seguida.
         fila = obter_fila()
         if len(fila) == 0:
             print('A fila de leitura está vazia.')
@@ -119,7 +119,7 @@ try:
             mostrar_livro(livro)
 
 
-    def MostrarPilha():
+    def MostrarPilha(): # Função para mostrar os livros que estão na pilha de leitura, ou seja, os livros que o usuário pretende ler em breve.
         pilha = obter_pilha()
         if len(pilha) == 0:
             print('Não há livros concluídos no histórico.')
@@ -131,7 +131,7 @@ try:
             mostrar_livro(livro)
 
 
-    def FiltrarGenero():
+    def FiltrarGenero(): # Função para filtrar os livros por gênero, permitindo ao usuário digitar um gênero específico e exibindo os livros que correspondem a esse gênero. Se não houver livros cadastrados ou se nenhum livro corresponder ao gênero digitado, exibe uma mensagem informando o resultado da busca.
         genero = input('Digite o gênero que deseja filtrar: ').lower()
         if genero == '':
             print('Gênero inválido. Digite um gênero válido.')
@@ -149,7 +149,7 @@ try:
             mostrar_livro(livro)
 
 
-    def ContarStatus():
+    def ContarStatus(): # Função para contar e exibir o número de livros em cada status (lidos, lendo, para ler) na biblioteca, fornecendo ao usuário uma visão geral do progresso de leitura e ajudando a organizar melhor a coleção de livros. Se não houver livros cadastrados, exibe uma mensagem informando que a biblioteca está vazia.
         if len(lista_de_livros_cadastrados) == 0:
             print('Nenhum livro cadastrado ainda.')
             return
@@ -163,7 +163,7 @@ try:
             print(f'  {status}: {quantidade}')
 
 
-    def RemoverDaFila():
+    def RemoverDaFila(): # Função para remover um livro da fila de espera. O usuário pode escolher o primeiro livro da fila e optar por removê-lo, marcando-o como "Lendo". Se a fila estiver vazia, exibe uma mensagem informando que não há livros para remover.
         fila = obter_fila()
         if len(fila) == 0:
             print('A fila de leitura está vazia.')
@@ -181,7 +181,7 @@ try:
             print('Ação cancelada.')
 
 
-    def RemoverDoHistorico():
+    def RemoverDoHistorico(): # Função para remover um livro do histórico de livros concluídos. O usuário pode escolher o último livro da pilha de leitura e optar por removê-lo, marcando-o como "Para ler". Se a pilha estiver vazia, exibe uma mensagem informando que não há livros para remover.
         pilha = obter_pilha()
         if len(pilha) == 0:
             print('Não há livros concluídos no histórico.')
@@ -199,15 +199,15 @@ try:
             print('Ação cancelada.')
 
 
-    def mostrar_livro(livro):
+    def mostrar_livro(livro): # Função para exibir os detalhes de um livro, mostrando todas as informações associadas a ele, como título, autor, ano de publicação, gênero e status. Essa função é utilizada em várias partes do programa para apresentar os detalhes dos livros de forma clara e organizada.
         for chave, valor in livro.items():
             print(f'  {chave}: {valor}')
 
 
-    def perguntar_sim_ou_nao(pergunta):
+    def perguntar_sim_ou_nao(pergunta): # Função para fazer uma pergunta ao usuário e obter uma resposta "S" ou "N". A função exibe a pergunta e espera a resposta do usuário, retornando True se a resposta for "S" e False se for "N". Essa função é útil para confirmar ações ou decisões do usuário de forma simples e direta.
         resposta = input(pergunta)
         return resposta == 'S'
 
-except Exception as error:
+except Exception as error: #se caso algo der errado
     print(f'Ocorreu um erro ao carregar as funções: {error}')
     print('Por favor, reinicie o sistema e tente novamente.')  
